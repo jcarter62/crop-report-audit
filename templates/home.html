@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crop Report Audit Page</title>
+
+
+</head>
+<body>
+    <form id="yearForm">
+        <h1>Welcome to the Crop Report Audit Application</h1>
+        <br>
+        <label>Current Year:</label><br>
+        <input type="text" id="current_year" name="current_year"><br>
+        <label>Compare Year:</label><br>
+        <input type="text" id="compare_year" name="compare_year"><br>
+
+        <button type="submit" value="Save" id="savebtn">Save</button>
+        <button type="submit" value="Save" id="savedbtn">Saved
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" id="chk"
+             viewBox="0 0 24 24">
+            <title>check-bold</title>
+            <path d="M9,20.42L2.79,14.21L5.62,11.38L9,14.77L18.88,4.88L21.71,7.71L9,20.42Z" />
+        </svg>
+        </button>
+    </form>
+    <br>
+    <hr>
+    <button onclick="generateReport()">Generate Report and download XLSX file.</button>
+
+    <script>
+        document.getElementById('yearForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const currentYear = document.getElementById('current_year').value;
+            const compareYear = document.getElementById('compare_year').value;
+            localStorage.setItem('current_year', currentYear);
+            localStorage.setItem('compare_year', compareYear);
+
+            let btn1 = document.getElementById('savebtn');
+            btn1.style.display = 'none';
+
+            let btn2 = document.getElementById('savedbtn');
+            btn2.style.display = 'block';
+        });
+
+        // Load saved values from local storage
+        document.getElementById('current_year').value = localStorage.getItem('current_year') || '';
+        document.getElementById('compare_year').value = localStorage.getItem('compare_year') || '';
+
+        function generateReport() {
+            const currentYear = localStorage.getItem('current_year');
+            const compareYear = localStorage.getItem('compare_year');
+            if (!currentYear || !compareYear) {
+                alert('Please enter the current year and compare year');
+                return;
+            }
+            window.location.href = `/generate_report?current_year=${currentYear}&compare_year=${compareYear}`;
+        }
+
+        let btn1 = document.getElementById('savebtn');
+        btn1.style.display = 'block';
+
+        let btn2 = document.getElementById('savedbtn');
+        btn2.style.display = 'none';
+    </script>
+</body>
+</html>
